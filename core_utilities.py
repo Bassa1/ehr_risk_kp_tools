@@ -6,21 +6,25 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_colwidth', -1)
 
 additional_name_mappings = {
-    'RXCUI:88249': 'montelukast',
-    'HP:0000964': 'Eczema',
-    'HP:0100806': 'Sepsis',
-    'HP:0000132': 'Menorrhagia',
-    'HP:0000938': 'Osteopenia',
-    'HP:0001250': 'Seizure',
-    'HP:0002094': 'Dyspnea',
-    'HP:0002902': 'Hyponatremia',
     'HP:0003119': 'Abnormal circulating lipid concentration',
-    'HP:0003124': 'Hypercholesterolemia',
-    'HP:0011947': 'Respiratory tract infection',
-    'HP:0012203': 'Onychomycosis',
+    'HP:0002094': 'Dyspnea',
+    'HP:0100518': 'Dysuria',
+    'HP:0000964': 'Eczema',
     'HP:0012378': 'Fatigue',
+    'HP:0003124': 'Hypercholesterolemia',
+    'HP:0002902': 'Hyponatremia',
     'HP:0100512': 'Low levels of vitamin D',
-    'HP:0100518': 'Dysuria'
+    'HP:0000132': 'Menorrhagia',
+    'HP:0012203': 'Onychomycosis',
+    'HP:0000938': 'Osteopenia',
+    'HP:0011947': 'Respiratory tract infection',
+    'HP:0001250': 'Seizure',
+    'HP:0100806': 'Sepsis',
+    'RXCUI:83367': 'atorvastatin',
+    'RXCUI:4815': 'glyburide',
+    'RXCUI:10582': 'levothyroxine',
+    'RXCUI:29046': 'lisinopril',
+    'RXCUI:88249': 'montelukast'
 }
 
 # EHR Risk KP endpoint
@@ -129,7 +133,7 @@ def parse_query_results(response, cutoff=0.5):
     edge_props_df = edge_props_df[select_cols]
 
     # Filter by feature_coefficient and sort
-    filter_ = edge_props_df.feature_coefficient > cutoff
+    filter_ = abs(edge_props_df.feature_coefficient) > cutoff
     edge_props_df = edge_props_df.loc[filter_]
     edge_props_df.sort_values(
         by=['subject_name', 'feature_coefficient'],
